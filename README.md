@@ -1,0 +1,46 @@
+# Java → ASP.NET Core MVC 移行作業標準
+
+Java製WebシステムをASP.NET Core MVCのControllerとRazor View（`.cshtml`）へ移行するための、Markdownによる作業標準です。AIと人間が同じ指示書で作業し、タスク・移行元ソース・移行先ソース・検証結果を対応付けます。Razor Pagesへの移行は本標準の対象ではありません。
+
+この公開リポジトリに置くのは標準・空のテンプレート・架空の記入例だけです。業務ソースや実案件で記入した文書は、組織が許可した非公開の作業場所で管理してください。現在の成果物には実装コード、実際の移行実績、実測のテスト結果は含みません。
+
+## ファイル構成
+
+| ファイル | 役割 |
+| --- | --- |
+| [AGENTS.md](AGENTS.md) | AIの作業入口 |
+| [.github/copilot-instructions.md](.github/copilot-instructions.md) | GitHub Copilotの作業入口 |
+| [共通移行ルール・完了基準](docs/rules.md) | 範囲、ID、変更管理、C#方針、完了判定の正本 |
+| [作業手順](docs/procedure.md) | Phase 1・2、手動移行、AIへの依頼例 |
+| [全体解析テンプレート](templates/analysis.md) | 全体構成、解析範囲、ソース対応、画面、概要タスク、共通依存 |
+| [画面別タスク指示書テンプレート](templates/instruction.md) | 実装前に確定するタスクと検証条件 |
+| [画面別作業報告書テンプレート](templates/report.md) | タスク別結果、詳細ソース対応、発見事項、検証、人間の確認 |
+| [記入例：全体解析](examples/analysis.md) | 架空の備品台帳システムの解析例 |
+| [記入例：指示書](examples/instruction.md) | 架空の備品検索画面の指示例 |
+| [記入例：報告書](examples/report.md) | 保留事項を残した報告例と判定例 |
+
+## 使い始める
+
+1. [共通ルール](docs/rules.md)と[作業手順](docs/procedure.md)を読む。
+2. 非公開の作業場所に標準とテンプレートをコピーする。既存のAI指示がある場合は上書きせず、矛盾を解消して取り込む。
+3. 全体解析テンプレートを `migration/analysis-v1.md` にコピーし、Phase 1を実施する。
+4. 対象画面を選び、指示書を `migration/screens/SCR-001/instruction-v1.md` として作成・確定する。
+5. 確定した指示書でPhase 2を実施し、報告書を同じ場所の `report-v1.md` に記録する。
+6. 人間が確認・必要な修正・検証を行い、完了基準に沿って判定する。
+
+コピー後は相対リンクを実際の配置に合わせて直してください。`<...>` は記入欄です。該当しない欄は理由付きで「対象外」とし、空欄や未調査と区別します。
+
+## AIの利用
+
+Copilot向けに `.github/copilot-instructions.md` を用意しています。読み込み方や対応機能は利用環境で異なるため、参照状況を確認し、必要なら共通ルール・全体解析・対象指示書を明示的に添付してください。リンク先の内容まで自動で読み込まれたと仮定しません。[GitHub公式のカスタム指示の説明](https://docs.github.com/en/copilot/concepts/prompting-and-context/custom-instructions)
+
+AIを使わない場合も、文書・ID・作業順序・完了条件は同一です。担当者が手順に沿って読み書きと検証を行います。
+
+## 公開リポジトリとしての運用
+
+- 実際の社名、業務仕様、内部URL、接続情報、個人情報、実データ、ソース断片、ログを公開版へ持ち込まない。実案件の指示書・報告書・脆弱性情報も非公開側で管理する。
+- 公開前に差分、添付物、Git履歴を確認する。`.gitignore` は機密情報の公開防止を保証しない。
+- 公開対象はこの標準・テンプレート・架空例とし、実案件の成果物は非公開側で管理する。
+- 公開時のライセンスは所有者が決め、必要な `LICENSE` を追加する。本一式で利用許諾条件を推定しない。
+
+技術確認の入口：[ASP.NET Core MVC公式概要](https://learn.microsoft.com/aspnet/core/mvc/overview)。使用する.NET・C#・ライブラリのバージョンは案件で固定し、そのバージョンの公式資料を参照します。
