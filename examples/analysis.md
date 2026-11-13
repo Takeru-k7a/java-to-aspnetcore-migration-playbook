@@ -25,15 +25,16 @@
 | Java設定 | 2：pom.xml、config/routes.xml | 依存とルート | 依存宣言・全ルートを照合 | 解析済 | なし |
 | Java画面 | 4：src/AssetSearchAction.java、src/AssetDetailAction.java、web/assets/search.jsp、web/assets/detail.jsp | 2画面 | 全入口とテンプレートの参照を追跡 | 解析済 | なし |
 | Java業務／共通 | 3：src/AssetDao.java、src/LoginGuard.java、db/schema.sql | 検索・認証参照・DB | 呼び出し、SQL、テーブル定義を照合 | 解析済 | なし |
-| 既存C# | 4：Demo.sln、src/Demo/Demo.csproj、src/Demo/Program.cs、src/Demo/Data/AssetRepository.cs | MVC登録・DB検索基盤 | 起動設定と公開メソッドを調査 | 解析済 | 認証接続はまだ存在しない |
+| 既存C# | 7：Demo.sln、src/Demo/Demo.csproj、src/Demo/Program.cs、src/Demo/Data/AssetRepository.cs、samples/Search/SampleSearchController.cs、samples/Search/SampleSearchViewModel.cs、samples/Search/Index.cshtml | MVC登録・DB検索基盤・画面sample | 起動設定、公開メソッド、sample一式と共通部品参照を調査 | 解析済 | 認証接続はまだ存在しない |
 | Java生成物 | 1：target/demo.war | ビルド生成物 | 元ソースの確認で代替 | 除外 | ソース対応の対象外 |
 
-棚卸し14ファイル、解析済13、除外1、一部0、未確認0。架空の全ファイル一覧は上表に列挙。画面ごとの詳細な条件分岐と実行結果はPhase 2で確認する。
+棚卸し17ファイル、解析済16、除外1、一部0、未確認0。架空の全ファイル一覧は上表に列挙。画面ごとの詳細な条件分岐と実行結果はPhase 2で確認する。
 
 ## 3. システム構成
 
 - Java：routes.xml → Action → AssetDao → SQLite。JSPで表示。LoginGuardがログイン状態を確認。
-- 既存C#：MVC登録とAssetRepositoryのみ。画面Controller、View、認証の接続は未実装。
+- 既存C#：MVC登録、AssetRepositoryと画面sampleのみ。業務画面Controller、View、認証の接続は未実装。
+- 画面sample：C0:samples/Search/のController・ViewModel・Razor Viewの3ファイル。プロジェクト外のひな形であり、実行画面には未接続。SCR-001では一式を新規配置して先にコミットし、次に画面固有の変更を行う。JS・CSS・共通部品の追加コピーは不要という設定。SCR-002での適用可否は詳細調査で決める。
 - 移行先：Controller → 既存AssetRepository → 同じ論理スキーマ。ViewModelとRazor Viewを追加する。
 - バッチ・外部API：本架空システムにはなし。DB更新機能もない。
 
@@ -57,6 +58,7 @@
 
 | 概要タスクID | 画面 | 作業概要 | 根拠 | 依存・先行条件 | Phase 2の調査点 |
 | --- | --- | --- | --- | --- | --- |
+| OV-SCR-001-004 | SCR-001 | sample一式を配置して先にコミット | C0:samples/Search/、MAP-001 | sampleの固定版 | 一式のコピー対応、内容一致、実装とのコミット分離 |
 | OV-SCR-001-001 | SCR-001 | 検索処理を移す | MAP-001・002 | 既存Repository | 空文字、大小文字、並び順 |
 | OV-SCR-001-002 | SCR-001 | 検索画面をRazor Viewで再現 | MAP-001 | 検索結果の契約 | 0件表示、入力保持、詳細リンク |
 | OV-SCR-001-003 | SCR-001 | 認証と画面遷移を接続検証 | MAP-003・004 | COM-001、SCR-002 | 未ログイン時・戻る操作 |
